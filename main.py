@@ -23,6 +23,10 @@ colideWithGround = False
 run = True
 isJumping = False
 jump_count = 10
+# doubleJump = False
+colideWithPlatform = False
+neg = 1
+
 
 while run:
     for event in pygame.event.get():
@@ -34,25 +38,40 @@ while run:
     for layer in tmx_map.visible_layers:
         if isinstance(layer, pytmx.TiledTileLayer):
             for x, y, image in layer.tiles():
-                scaled_image = pygame.transform.scale(image, (TILE_WIDTH * MAP_SCALE, TILE_HEIGHT * MAP_SCALE))
-                screen.blit(scaled_image, (x * TILE_WIDTH * MAP_SCALE, y * TILE_HEIGHT * MAP_SCALE))
+                scaled_image = pygame.transform.scale(
+                    image, (TILE_WIDTH * MAP_SCALE, TILE_HEIGHT * MAP_SCALE))
+                screen.blit(scaled_image, (x * TILE_WIDTH *
+                            MAP_SCALE, y * TILE_HEIGHT * MAP_SCALE))
 
     if not colideWithGround:
         playerPos.y += GRAVITY
 
+
+
     for layer in tmx_map.visible_layers:
         if isinstance(layer, pytmx.TiledTileLayer) and layer.name == "ground":
             for x, y, tile in layer.tiles():
-                tile_rect = pygame.Rect(x * TILE_WIDTH * MAP_SCALE, y * TILE_HEIGHT * MAP_SCALE, TILE_WIDTH * MAP_SCALE, TILE_HEIGHT * MAP_SCALE)
+                tile_rect = pygame.Rect(x * TILE_WIDTH * MAP_SCALE, y * TILE_HEIGHT *
+                                        MAP_SCALE, TILE_WIDTH * MAP_SCALE, TILE_HEIGHT * MAP_SCALE)
                 if player_rect.colliderect(tile_rect):
                     colideWithGround = True
-                    #playerPos.y = tile_rect.top - player_rect.height
+                    
+    colideWithPlatform = False
 
-    #if playerPos.x >= 192 * MAP_SCALE and playerPos.x <= 256 * MAP_SCALE and player_rect.top <= 6 * 16 * MAP_SCALE:
-    #    playerPos.y = 6 * 16 * MAP_SCALE
-        
-    
-        
+    for layer in tmx_map.visible_layers:
+        if isinstance(layer, pytmx.TiledTileLayer) and layer.name == "platform":
+            for x, y, tile in layer.tiles():
+                platform = pygame.Rect(x * TILE_WIDTH * MAP_SCALE, y * TILE_HEIGHT *
+                                       MAP_SCALE, TILE_WIDTH * MAP_SCALE, TILE_HEIGHT * MAP_SCALE)
+
+                if player_rect.colliderect(platform):
+                    colideWithPlatform = True
+                    break
+
+        if colideWithPlatform:
+            pass
+            #Handle the collision
+                
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:
@@ -62,7 +81,6 @@ while run:
     if keys[pygame.K_SPACE] and isJumping == False:
         isJumping = True
 
-        
     if isJumping:
         if jump_count >= -10:
             neg = 1
@@ -73,7 +91,7 @@ while run:
         else:
             isJumping = False
             jump_count = 10
-    
+
     player_rect = pygame.Rect(playerPos.x, playerPos.y, 64, 64)
     screen.blit(player, (playerPos.x, playerPos.y))
     pygame.display.flip()
