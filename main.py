@@ -52,9 +52,6 @@ while run:
                 screen.blit(scaled_image, (x * TILE_WIDTH *
                             MAP_SCALE, y * TILE_HEIGHT * MAP_SCALE))
 
-    playerGravity += 2
-    player_rect.y += playerGravity
-
     if right:
         X_VELOCITY = 10
     elif left:
@@ -64,21 +61,23 @@ while run:
 
     player_rect.x += X_VELOCITY
 
+    for layerX in tmx_map.visible_layers:
+        if isinstance(layerX, pytmx.TiledTileLayer) and layerX.name == "platform":
+            for x, y, tile in layerX.tiles():
+                platformX = pygame.Rect(x * TILE_WIDTH * MAP_SCALE, y * TILE_HEIGHT * MAP_SCALE,
+                                        TILE_WIDTH * MAP_SCALE, TILE_HEIGHT * MAP_SCALE)
+                if player_rect.colliderect(platformX):
+                    if X_VELOCITY > 0:
+                        player_rect.right = platformX.left
+                    elif X_VELOCITY < 0:
+                        player_rect.left = platformX.right
+
+    playerGravity += 2
+    player_rect.y += playerGravity
+
     if player_rect.bottom > groundLevel:
         player_rect.bottom = groundLevel
         playerGravity = 0
-
-    for layer in tmx_map.visible_layers:
-        if isinstance(layer, pytmx.TiledTileLayer) and layer.name == "platform":
-            for x, y, tile in layer.tiles():
-                platformX = pygame.Rect(x * TILE_WIDTH * MAP_SCALE, y * TILE_HEIGHT * MAP_SCALE,
-                                            TILE_WIDTH * MAP_SCALE, TILE_HEIGHT * MAP_SCALE)
-                if player_rect.colliderect(platformX):
-                    if player_rect.right > platformX.left:
-                        player_rect.bottom = platformY.top
-                    if player_rect.left > platformX.right:
-                        player_rect.top = platformY.bottom
-                            
 
     for layerY in tmx_map.visible_layers:
         if isinstance(layerY, pytmx.TiledTileLayer) and layerY.name == "platform":
@@ -89,11 +88,10 @@ while run:
                     if playerGravity > 0:
                         player_rect.bottom = platformY.top
                         playerGravity = 0
-                    if playerGravity < 0:
+                    elif playerGravity < 0:
                         player_rect.top = platformY.bottom
-                        playerGravity = -.5
-
-
+                        playerGravity = -1
+                        
     pygame.draw.rect(screen, (255, 255, 255), player_rect, 5)
     screen.blit(player, player_rect)
     pygame.display.flip()
