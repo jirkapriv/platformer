@@ -8,10 +8,14 @@ SCREEN_WIDTH = 320 * MAP_SCALE
 SCREEN_HEIGHT = 176 * MAP_SCALE
 TILE_WIDTH = 16
 TILE_HEIGHT = 16
-playerGravity = 0
 X_VELOCITY = 0
 
+
 pygame.display.set_caption("Platformer")
+playerGravity = 0
+offsetCam = [100, 100]
+camera = pygame.Rect(offsetCam[0], 0, SCREEN_WIDTH -
+                     offsetCam[1] * 2, SCREEN_HEIGHT)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 tmx_map = pytmx.load_pygame("terein/map.tmx")
 player = pygame.image.load("playya.png")
@@ -19,13 +23,13 @@ player = pygame.transform.scale(player, (48, 48))
 clock = pygame.time.Clock()
 player_rect = player.get_rect(
     topleft=(screen.get_width() / 2, screen.get_height() / 2))
+#groundLevel = screen.get_height() - (16 * MAP_SCALE * 3)
 run = True
-groundLevel = screen.get_height() - (16 * MAP_SCALE * 3)
-
 left = False
 right = False
 
 while run:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -42,7 +46,7 @@ while run:
             if event.key == pygame.K_d:
                 right = False
 
-    screen.fill((255, 255, 255))
+    screen.fill((0, 178, 255))
 
     for layer in tmx_map.visible_layers:
         if isinstance(layer, pytmx.TiledTileLayer):
@@ -50,7 +54,7 @@ while run:
                 scaled_image = pygame.transform.scale(
                     image, (TILE_WIDTH * MAP_SCALE, TILE_HEIGHT * MAP_SCALE))
                 screen.blit(scaled_image, (x * TILE_WIDTH *
-                            MAP_SCALE, y * TILE_HEIGHT * MAP_SCALE))
+                            MAP_SCALE - camera.x, y * TILE_HEIGHT * MAP_SCALE))
 
     if right:
         X_VELOCITY = 10
@@ -60,6 +64,11 @@ while run:
         X_VELOCITY = 0
 
     player_rect.x += X_VELOCITY
+
+    if player_rect.x - camera.x < 200:
+        camera.x = player_rect.x - 200
+    if player_rect.x - camera.x > SCREEN_WIDTH - 400:
+        camera.x = player_rect.x - (SCREEN_WIDTH - 400)
 
     for layerX in tmx_map.visible_layers:
         if isinstance(layerX, pytmx.TiledTileLayer) and layerX.name == "platform":
@@ -75,9 +84,11 @@ while run:
     playerGravity += 2
     player_rect.y += playerGravity
 
+    """
     if player_rect.bottom > groundLevel:
         player_rect.bottom = groundLevel
         playerGravity = 0
+    """
 
     for layerY in tmx_map.visible_layers:
         if isinstance(layerY, pytmx.TiledTileLayer) and layerY.name == "platform":
@@ -91,9 +102,8 @@ while run:
                     elif playerGravity < 0:
                         player_rect.top = platformY.bottom
                         playerGravity = -1
-                        
-    pygame.draw.rect(screen, (255, 255, 255), player_rect, 5)
-    screen.blit(player, player_rect)
+
+    screen.blit(player, (player_rect.x - camera.x, player_rect.y))
     pygame.display.flip()
     clock.tick(60)
 
