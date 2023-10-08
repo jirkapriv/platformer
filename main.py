@@ -24,18 +24,20 @@ clock = pygame.time.Clock()
 player_rect = player.get_rect(
     topleft=(screen.get_width() / 2, screen.get_height() / 2))
 #groundLevel = screen.get_height() - (16 * MAP_SCALE * 3)
-run = True
 left = False
 right = False
+run = True
+jumping = False
+
 
 while run:
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                playerGravity = -30
+            if event.key == pygame.K_SPACE and jumping == False:
+                playerGravity = -25
+                jumping = True
             if event.key == pygame.K_a:
                 left = True
             if event.key == pygame.K_d:
@@ -47,6 +49,12 @@ while run:
                 right = False
 
     screen.fill((0, 178, 255))
+
+
+    if player_rect.y > 1000:
+        player_rect.y = 0
+        player_rect.x = 200
+
 
     for layer in tmx_map.visible_layers:
         if isinstance(layer, pytmx.TiledTileLayer):
@@ -78,9 +86,12 @@ while run:
                 if player_rect.colliderect(platformX):
                     if X_VELOCITY > 0:
                         player_rect.right = platformX.left
+                        jumping = False
+                        
                     elif X_VELOCITY < 0:
                         player_rect.left = platformX.right
-
+                        jumping = False
+                        
     playerGravity += 2
     player_rect.y += playerGravity
 
@@ -99,6 +110,7 @@ while run:
                     if playerGravity > 0:
                         player_rect.bottom = platformY.top
                         playerGravity = 0
+                        jumping = False
                     elif playerGravity < 0:
                         player_rect.top = platformY.bottom
                         playerGravity = -1
