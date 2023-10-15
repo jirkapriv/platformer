@@ -1,5 +1,7 @@
 import pygame
 import pytmx
+import math
+import random
 
 pygame.init()
 
@@ -9,7 +11,8 @@ SCREEN_HEIGHT = 176 * MAP_SCALE
 TILE_WIDTH = 16
 TILE_HEIGHT = 16
 X_VELOCITY = 0
-
+mrakScale = 5
+pocetMraku = 20
 
 pygame.display.set_caption("Platformer")
 playerGravity = 0
@@ -17,13 +20,32 @@ offsetCam = [100, 100]
 camera = pygame.Rect(offsetCam[0], 0, SCREEN_WIDTH -
                      offsetCam[1] * 2, SCREEN_HEIGHT)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-tmx_map = pytmx.load_pygame("terein/map.tmx")
+tmx_map = pytmx.load_pygame("terein/map2.tmx")
 player = pygame.image.load("playya.png")
 player = pygame.transform.scale(player, (48, 48))
+mrak1 = pygame.image.load("mrak1.png")
+mrak1 = pygame.transform.scale(
+    mrak1, (mrak1.get_width() * mrakScale, mrak1.get_height() * mrakScale))
+mrak2 = pygame.image.load("mrak2.png")
+mrak2 = pygame.transform.scale(
+    mrak2, (mrak2.get_width() * mrakScale, mrak2.get_height() * mrakScale))
+mrak3 = pygame.image.load("mrak3.png")
+mrak3 = pygame.transform.scale(
+    mrak3, (mrak3.get_width() * mrakScale, mrak3.get_height() * mrakScale))
+
+mraky = []
+for x in range(0, pocetMraku):
+    indexObrazku = random.randint(1, 3)
+    (posX, posY) = random.randint(-200, screen.get_width()
+                                  ), random.randint(0, screen.get_height())
+    depth = random.uniform(.4, 1.1)
+    mraky.append([(posX, posY), indexObrazku, depth])
+
+
 clock = pygame.time.Clock()
 player_rect = player.get_rect(
     topleft=(screen.get_width() / 2, screen.get_height() / 2))
-#groundLevel = screen.get_height() - (16 * MAP_SCALE * 3)
+# groundLevel = screen.get_height() - (16 * MAP_SCALE * 3)
 left = False
 right = False
 run = True
@@ -48,13 +70,28 @@ while run:
             if event.key == pygame.K_d:
                 right = False
 
-    screen.fill((0, 178, 255))
+    screen.fill((153, 159, 207))
 
+    for x in range(0, len(mraky)):
+
+        if mraky[x][1] == 1:
+            mrak1jedna = pygame.transform.scale(
+                mrak1, (mrak1.get_width() * mraky[x][2], mrak1.get_height() * mraky[x][2]))
+            screen.blit(mrak1jedna, mraky[x][0])
+
+        if mraky[x][1] == 2:
+            mrak2jedna = pygame.transform.scale(
+                mrak2, (mrak2.get_width() * mraky[x][2], mrak2.get_height() * mraky[x][2]))
+            screen.blit(mrak2jedna, mraky[x][0])
+
+        if mraky[x][1] == 3:
+            mrak3jedna = pygame.transform.scale(
+                mrak3, (mrak3.get_width() * mraky[x][2], mrak3.get_height() * mraky[x][2]))
+            screen.blit(mrak3jedna, mraky[x][0])
 
     if player_rect.y > 1000:
         player_rect.y = 0
         player_rect.x = 200
-
 
     for layer in tmx_map.visible_layers:
         if isinstance(layer, pytmx.TiledTileLayer):
@@ -87,11 +124,11 @@ while run:
                     if X_VELOCITY > 0:
                         player_rect.right = platformX.left
                         jumping = False
-                        
+
                     elif X_VELOCITY < 0:
                         player_rect.left = platformX.right
                         jumping = False
-                        
+
     playerGravity += 2
     player_rect.y += playerGravity
 
@@ -115,8 +152,20 @@ while run:
                         player_rect.top = platformY.bottom
                         playerGravity = -1
 
+    for x in range(len(mraky)-1, -1, -1):
+        mraky[x][0] = list(mraky[x][0])
+        mraky[x][0][0] += 1 * mraky[x][2]
+        mraky[x][0] = tuple(mraky[x][0])
+
+        if mraky[x][0][0] > screen.get_width() + 200:
+            del mraky[x]
+            indexObrazku = random.randint(1, 3)
+            (posX, posY) = random.randint(0, screen.get_width()) - \
+                500, random.randint(0, screen.get_height())
+            depth = random.uniform(.4, 1.4)
+            mraky.append([(posX, posY), indexObrazku, depth])
+
     screen.blit(player, (player_rect.x - camera.x, player_rect.y))
     pygame.display.flip()
     clock.tick(60)
-
 pygame.quit()
