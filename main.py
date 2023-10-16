@@ -36,7 +36,7 @@ mrak3 = pygame.transform.scale(
 mraky = []
 for x in range(0, pocetMraku):
     indexObrazku = random.randint(1, 3)
-    (posX, posY) = random.randint(-200, screen.get_width()
+    (posX, posY) = random.randint(-500, screen.get_width()-500
                                   ), random.randint(0, screen.get_height())
     depth = random.uniform(.4, 1.1)
     mraky.append([(posX, posY), indexObrazku, depth])
@@ -160,8 +160,7 @@ while run:
         if mraky[x][0][0] > screen.get_width() + 200:
             del mraky[x]
             indexObrazku = random.randint(1, 3)
-            (posX, posY) = random.randint(0, screen.get_width()) - \
-                500, random.randint(0, screen.get_height())
+            (posX, posY) = random.randint(-500, 0), random.randint(0, screen.get_height())
             depth = random.uniform(.4, 1.4)
             mraky.append([(posX, posY), indexObrazku, depth])
 
