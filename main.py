@@ -14,6 +14,15 @@ X_VELOCITY = 0
 mrakScale = 5
 pocetMraku = 20
 
+cX = 0
+cY = 0
+dirX = 0
+dirY = 0
+englik = 0
+projectil = []
+
+
+
 pygame.display.set_caption("Platformer")
 playerGravity = 0
 offsetCam = [100, 100]
@@ -42,6 +51,8 @@ for x in range(0, pocetMraku):
     mraky.append([(posX, posY), indexObrazku, depth])
 
 
+
+
 clock = pygame.time.Clock()
 player_rect = player.get_rect(
     topleft=(screen.get_width() / 2, screen.get_height() / 2))
@@ -51,8 +62,9 @@ right = False
 run = True
 jumping = False
 
-
+projPos = [player_rect.x, player_rect.y]
 while run:
+       
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -69,9 +81,23 @@ while run:
                 left = False
             if event.key == pygame.K_d:
                 right = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            cX = cursorPos[0] - (player_rect.x - camera.x)
+            cY = cursorPos[1] - player_rect.y
+            magnitude = math.sqrt(cX**2 + cY**2)
 
+            dirX = cX / magnitude
+            dirY = cY / magnitude
+
+            startX = player_rect.x + player_rect.width / 2
+            startY = player_rect.y + player_rect.height / 2
+
+            projectil.append([[startX, startY, 10, 10], [dirX, dirY]])
+     
+     
+     
     screen.fill((153, 159, 207))
-
+    cursorPos = pygame.mouse.get_pos()
     for x in range(0, len(mraky)):
 
         if mraky[x][1] == 1:
@@ -164,6 +190,14 @@ while run:
             depth = random.uniform(.4, 1.4)
             mraky.append([(posX, posY), indexObrazku, depth])
 
+    
+
+
+    for x in range(len(projectil)):
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(projectil[x][0][0] - camera.x, projectil[x][0][1], projectil[x][0][2], projectil[x][0][3]))
+        projectil[x][0][0] += projectil[x][1][0] * 30
+        projectil[x][0][1] += projectil[x][1][1] * 30
+        
     screen.blit(player, (player_rect.x - camera.x, player_rect.y))
     pygame.display.flip()
     clock.tick(60)
