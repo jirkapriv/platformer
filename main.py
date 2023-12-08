@@ -43,7 +43,7 @@ mrak3 = pygame.transform.scale(
     mrak3, (mrak3.get_width() * mrakScale, mrak3.get_height() * mrakScale))
 
 tnt = pygame.image.load("TNT.png")
-tnt = pygame.transform.scale(tnt, (tnt.get_width() * 4, tnt.get_height() * 4))
+tnt = pygame.transform.scale(tnt, (tnt.get_width() * 3.5, tnt.get_height() * 3.5))
 mraky = []
 
 
@@ -216,10 +216,10 @@ while run:
         
     
     screen.blit(player, (player_rect.x - camera.x, player_rect.y))
-    screen.blit(tnt, (prekazka1.x - camera.x, prekazka1.y - 14))
-    screen.blit(tnt, (prekazka2.x - camera.x, prekazka2.y - 14))
-    screen.blit(tnt, (prekazka3.x - camera.x, prekazka3.y - 14))
-    screen.blit(tnt, (prekazka4.x - camera.x, prekazka4.y - 14))
+    screen.blit(tnt, (prekazka1.x - camera.x, prekazka1.y -6))
+    screen.blit(tnt, (prekazka2.x - camera.x, prekazka2.y -6))
+    screen.blit(tnt, (prekazka3.x - camera.x, prekazka3.y -6))
+    screen.blit(tnt, (prekazka4.x - camera.x, prekazka4.y -6))
     
     pygame.display.flip()
     clock.tick(60)
