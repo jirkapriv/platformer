@@ -42,7 +42,18 @@ mrak3 = pygame.image.load("mrak3.png")
 mrak3 = pygame.transform.scale(
     mrak3, (mrak3.get_width() * mrakScale, mrak3.get_height() * mrakScale))
 
+tnt = pygame.image.load("TNT.png")
+tnt = pygame.transform.scale(tnt, (tnt.get_width() * 4, tnt.get_height() * 4))
 mraky = []
+
+
+
+prekazka1 = tnt.get_rect( topleft=(870, 206))
+prekazka2 = tnt.get_rect( topleft=(1100,462))
+prekazka3 = tnt.get_rect( topleft=(1600,206))
+prekazka4 = tnt.get_rect( topleft=(1250,206))
+
+
 for x in range(0, pocetMraku):
     indexObrazku = random.randint(1, 3)
     (posX, posY) = random.randint(-500, screen.get_width()-500
@@ -118,6 +129,11 @@ while run:
     if player_rect.y > 1000:
         player_rect.y = 0
         player_rect.x = 200
+        
+    if player_rect.colliderect(prekazka1) or player_rect.colliderect(prekazka2) or player_rect.colliderect(prekazka3) or player_rect.colliderect(prekazka4): 
+        player_rect.y = 0
+        player_rect.x = 200
+        
 
     for layer in tmx_map.visible_layers:
         if isinstance(layer, pytmx.TiledTileLayer):
@@ -198,7 +214,13 @@ while run:
         projectil[x][0][0] += projectil[x][1][0] * 30
         projectil[x][0][1] += projectil[x][1][1] * 30
         
+    
     screen.blit(player, (player_rect.x - camera.x, player_rect.y))
+    screen.blit(tnt, (prekazka1.x - camera.x, prekazka1.y - 14))
+    screen.blit(tnt, (prekazka2.x - camera.x, prekazka2.y - 14))
+    screen.blit(tnt, (prekazka3.x - camera.x, prekazka3.y - 14))
+    screen.blit(tnt, (prekazka4.x - camera.x, prekazka4.y - 14))
+    
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
