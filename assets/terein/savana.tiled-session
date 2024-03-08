@@ -1,0 +1,133 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "savana.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "Všechny soubory (*)",
+    "fileStates": {
+        "savana.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1421.25,
+                "y": 248.75
+            }
+        },
+        "tiles/RohLevTileSavanaCut.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/Sprite-0007.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/Sprite-0008.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/Sprite-0009.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/Sprite-0010.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/Sprite-0011.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/Sprite-0012.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/TileSavanaDirt.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/TileSavanaDirtCut.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/TileSavanaDirtCutt.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/rohPravTileSavanaCut.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/spoj.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/spojj.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/spojjj.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile1.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile10.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile11.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile12.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile13.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile14.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile15.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile16.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile2.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile3.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile4.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile5.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile6.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile7.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile8.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/stromTile9.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/tileblockSavavana.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/vetev.tsx": {
+            "scaleInDock": 1
+        }
+    },
+    "map.height": 32,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 96,
+    "openFiles": [
+        "savana.tmx"
+    ],
+    "project": "savana.tiled-project",
+    "recentFiles": [
+        "savana.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
