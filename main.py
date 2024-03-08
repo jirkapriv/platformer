@@ -13,13 +13,13 @@ SCREEN_HEIGHT = 176 * MAP_SCALE
 TILE_WIDTH = 12
 TILE_HEIGHT = 12
 X_VELOCITY = 0
-X_ZONE_FOR_CAMERA = 200
-Y_ZONE_FOR_CAMERA = 150
+X_ZONE_FOR_CAMERA = 350
+Y_ZONE_FOR_CAMERA = 200
 GRAVITY_PULL = 2
 RUNNING_SPEED = 10
 WHITE = (255, 255, 255)
 BLUEISHBACKGR = (153, 159, 207)
-offsetCam = [100, 100]
+offsetCam = [100, 300]
 playerScale = 1.7
 lastVelocity = 1
 landedTimer = 0
@@ -68,6 +68,12 @@ playerFallingDown = prepareIMG("heroFalling", playerScale, "playerFalling")
 playerJumpingUp = prepareIMG("jumpHero", playerScale, "playerjumpingUp")
 playerDashing = prepareIMG("dash", playerScale, "playerDashed")
 playerLanded = prepareIMG("heroLanded2", playerScale, "playerLanded")
+
+backgroundSvana1 = prepareIMG("pozadiSavana1", MAP_SCALE, "backgroundSavana")
+backgroundSvana2 = prepareIMG("pozadiSavana2", MAP_SCALE, "backgroundSavana")
+backgroundSvana3 = prepareIMG("pozadiSavana3", MAP_SCALE, "backgroundSavana")
+backgroundSvana4 = prepareIMG("pozadiSavana4", MAP_SCALE, "backgroundSavana")
+
 player_rect = playerIDLE1.get_rect(topleft=(screen.get_width() / 2 - 100, screen.get_height() / 2-200))
 
 
@@ -91,7 +97,27 @@ while run:
                 right = False
 
      
-    screen.fill((153, 159, 207))
+    screen.fill(BLUEISHBACKGR)
+
+    screen.blit(backgroundSvana1, (-320 * MAP_SCALE + -camera.x / 10, 0))
+    screen.blit(backgroundSvana1, (0 + -camera.x / 10, 0))
+    screen.blit(backgroundSvana1, (320 * MAP_SCALE + -camera.x / 10, 0))
+
+    screen.blit(backgroundSvana2, (-320 * MAP_SCALE + -camera.x / 6, 0))
+    screen.blit(backgroundSvana2, (0 + -camera.x / 6, 0))
+    screen.blit(backgroundSvana2, (320 * MAP_SCALE + -camera.x / 6, 0))
+
+    screen.blit(backgroundSvana3, (-320 * MAP_SCALE + -camera.x / 3, 0))
+    screen.blit(backgroundSvana3, (0 + -camera.x / 3, 0))
+    screen.blit(backgroundSvana3, (320 * MAP_SCALE + -camera.x / 3, 0))
+    screen.blit(backgroundSvana3, (640 * MAP_SCALE + -camera.x / 3, 0))
+
+    screen.blit(backgroundSvana4, (-320 * MAP_SCALE + -camera.x / 1.7, 0))
+    screen.blit(backgroundSvana4, (0 + -camera.x / 1.7, 0))
+    screen.blit(backgroundSvana4, (320 * MAP_SCALE + -camera.x / 1.7, 0))
+    screen.blit(backgroundSvana4, (640 * MAP_SCALE + -camera.x / 1.7, 0))
+    screen.blit(backgroundSvana4, (960 * MAP_SCALE + -camera.x / 1.7, 0))
+
 
     if player_rect.y > 1000:
         player_rect.y = 0
